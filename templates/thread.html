@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Chat zu: <a href="{{ url_for('detail', ad_id=t['ad_id']) }}">{{ t['ad_title'] }}</a></h2>
+
+<div class="chat-list">
+  {% for m in msgs %}
+    <div class="msg {% if m['sender_id'] == current_user.id %}me{% else %}other{% endif %}">
+      <div class="bubble">
+        <div class="msg-body">{{ m['body'] }}</div>
+        <div class="time">
+          {{ m['created_at'] }}
+          {% if current_user.is_authenticated %}
+            <details class="report-inline">
+              <summary>Melden</summary>
+              <form method="post" action="{{ url_for('report_message', msg_id=m['id']) }}">
+                <input name="reason" placeholder="Grund" required>
+                <button type="submit">OK</button>
+              </form>
+            </details>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>Noch keine Nachrichten.</p>
+  {% endfor %}
+</div>
+
+<form class="chat-form" method="post">
+  <input name="body" placeholder="Nachricht schreiben…" required maxlength="2000">
+  <button type="submit">Senden</button>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Neue Anzeige</h2>
+<form class="form" method="post" enctype="multipart/form-data">
+  <label>Titel
+    <input name="title" required>
+  </label>
+  <label>Beschreibung
+    <textarea name="description" rows="6" required></textarea>
+  </label>
+  <label>Kategorie
+    <select name="category" required>
+      {% for c in categories %}
+        <option value="{{ c }}">{{ c }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Preis (EUR)
+    <input name="price" inputmode="decimal" placeholder="z.B. 49,90">
+  </label>
+  <label>PLZ
+    <input name="plz" pattern="\d{5}" title="5-stellige PLZ" required>
+  </label>
+  <label>Bild (optional)
+    <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif">
+  </label>
+  <button type="submit">Veröffentlichen</button>
+</form>
+{% endblock %}
