@@ -4,6 +4,58 @@
 <div class="grid">
   <div class="card pad"><strong>{{ stats.users }}</strong><br>Nutzer</div>
   <div class="card pad"><strong>{{ stats.ads }}</strong><br>Anzeigen</div>
-  <div class="card pad"><strong>{{ stats.reports }}</strong><br>Meldungen</div>
+  <div class="card pad"><strong>{{ stats.reports }}</strong><br>Offene Meldungen</div>
+</div>
+
+<h2>Meldungen</h2>
+<div class="list">
+  {% for report in reports %}
+    <section class="card pad admin-row">
+      <div>
+        <strong>{{ report.ad_title }}</strong>
+        <p>Status: {{ report.status }} | Anzeige: {{ report.ad_status }} | Melder: {{ report.reporter_email or "Gast" }}</p>
+        <p>{{ report.reason or "Kein Grund angegeben" }}</p>
+      </div>
+      {% if report.status == "open" %}
+        <form method="post" action="{{ url_for('admin_handle_report', report_id=report.id) }}">
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+          <button class="btn-secondary" name="action" value="ignore">Ignorieren</button>
+          <button class="btn-primary" name="action" value="hide_ad">Anzeige ausblenden</button>
+        </form>
+      {% endif %}
+    </section>
+  {% else %}
+    <div class="card pad">Keine Meldungen.</div>
+  {% endfor %}
+</div>
+
+<h2>Neueste Anzeigen</h2>
+<div class="list">
+  {% for ad in ads %}
+    <section class="card pad admin-row">
+      <div>
+        <strong>{{ ad.title }}</strong>
+        <p>{{ ad.city }} | {{ ad.category_name }} | {{ ad.status }} | {{ ad.seller_name }}</p>
+      </div>
+      <form method="post" action="{{ url_for('admin_set_ad_status', ad_id=ad.id) }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+        <button class="btn-secondary" name="status" value="active">Aktiv</button>
+        <button class="btn-secondary" name="status" value="hidden">Ausblenden</button>
+        <button class="btn-secondary" name="status" value="deleted">Loeschen</button>
+      </form>
+    </section>
+  {% endfor %}
+</div>
+
+<h2>Neueste Nutzer</h2>
+<div class="list">
+  {% for user in users %}
+    <section class="card pad admin-row">
+      <div>
+        <strong>{{ user.display_name }}</strong>
+        <p>{{ user.email }} | {% if user.email_verified_at %}verifiziert{% else %}nicht verifiziert{% endif %} | {% if user.is_admin %}Admin{% else %}Nutzer{% endif %}</p>
+      </div>
+    </section>
+  {% endfor %}
 </div>
 {% endblock %}

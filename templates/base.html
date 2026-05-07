@@ -18,6 +18,10 @@
       <a class="btn-primary" href="{{ url_for('new_ad') }}">+ Anzeige</a>
       <a class="nav-link" href="{{ url_for('inbox') }}">Nachrichten</a>
       {% if current_user.is_authenticated %}
+        {% if current_user.is_admin %}
+          <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+        {% endif %}
+        <a class="nav-link" href="{{ url_for('account_security') }}">Konto</a>
         <span class="nav-user">{{ current_user.display_name }}</span>
         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
       {% else %}
@@ -62,6 +66,8 @@
       <a href="{{ url_for('impressum') }}">Impressum</a>
       <span>&middot;</span>
       <a href="{{ url_for('datenschutz') }}">Datenschutz</a>
+      <span>&middot;</span>
+      <a href="{{ url_for('terms') }}">AGB</a>
     </div>
   </div>
 </footer>

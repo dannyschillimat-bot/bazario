@@ -1,1 +1,25 @@
-{% extends 'base.html' %}{% block content %}<h1>Impressum</h1><p>Platzhalter.</p>{% endblock %}
+{% extends "base.html" %}
+{% block content %}
+<article class="card pad legal">
+  <h1>Impressum</h1>
+  <p class="warn">Hinweis: Diese Seite enthaelt ausfuellbare Pflichtangaben. Bitte vor echtem Betrieb mit deinen tatsaechlichen Betreiberangaben und ggf. anwaltlicher Pruefung finalisieren.</p>
+
+  <h2>Angaben gemaess § 5 DDG</h2>
+  <p>{{ legal.operator_name }}<br>{{ legal.operator_address }}</p>
+
+  <h2>Kontakt</h2>
+  <p>E-Mail: {{ legal.operator_email }}<br>Telefon / schnelles Kontaktmittel: {{ legal.operator_phone }}</p>
+
+  <h2>Umsatzsteuer-ID</h2>
+  <p>{{ legal.vat_id }}</p>
+
+  <h2>Verantwortlich fuer Inhalte</h2>
+  <p>{{ legal.content_responsible }}</p>
+
+  <h2>Kontaktstelle nach Digital Services Act</h2>
+  <p>Kontakt fuer Behoerden, Nutzer und Meldungen: {{ legal.dsa_contact }}</p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen, sofern keine gesetzliche Pflicht besteht.</p>
+</article>
+{% endblock %}

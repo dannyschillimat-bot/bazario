@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Konto-Sicherheit</h1>
+<section class="card pad form">
+  <p><strong>E-Mail:</strong> {{ current_user.email }}</p>
+  {% if current_user.email_verified %}
+    <p class="ok">Deine E-Mail-Adresse ist bestaetigt.</p>
+  {% else %}
+    <p class="warn">Bitte bestaetige deine E-Mail-Adresse. Erst danach kannst du Anzeigen aufgeben und Nachrichten senden.</p>
+    <form method="post" action="{{ url_for('resend_verification') }}">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <button class="btn-primary" type="submit">Bestaetigungslink erneut senden</button>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

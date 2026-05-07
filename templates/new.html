@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Neue Anzeige</h1>
+{% if not current_user.email_verified %}
+  <div class="card pad warn">Bitte bestaetige erst deine E-Mail-Adresse, bevor du Anzeigen aufgibst.</div>
+{% endif %}
 <form class="card pad form" action="{{ url_for('new_ad') }}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
   <label>Titel <input name="title" required minlength="3" maxlength="120"></label>

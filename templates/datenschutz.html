@@ -1,1 +1,34 @@
-{% extends 'base.html' %}{% block content %}<h1>Datenschutz</h1><p>Platzhalter.</p>{% endblock %}
+{% extends "base.html" %}
+{% block content %}
+<article class="card pad legal">
+  <h1>Datenschutzerklaerung</h1>
+  <p class="warn">Hinweis: Diese Datenschutzerklaerung ist eine technische Grundlage fuer X-Markt.de. Bitte vor echtem Betrieb mit echten Betreiberangaben, Hosting-Vertrag, E-Mail-Anbieter und ggf. Rechtsberatung pruefen.</p>
+
+  <h2>Verantwortlicher</h2>
+  <p>{{ legal.operator_name }}<br>{{ legal.operator_address }}<br>E-Mail: {{ legal.operator_email }}</p>
+
+  <h2>Verarbeitete Daten</h2>
+  <p>Wir verarbeiten Daten, die fuer Betrieb und Nutzung des Marktplatzes erforderlich sind: Kontoangaben, E-Mail-Adresse, Anzeigeninhalte, Bilder, Nachrichten, Meldungen, Login-Zeitpunkte und technische Serverdaten.</p>
+
+  <h2>Zwecke der Verarbeitung</h2>
+  <p>Die Daten werden zur Bereitstellung von Nutzerkonten, Anzeigen, Kontaktfunktionen, Missbrauchsabwehr, Moderation, Sicherheit, Betrieb und Fehleranalyse verarbeitet.</p>
+
+  <h2>Rechtsgrundlagen</h2>
+  <p>Die Verarbeitung erfolgt je nach Vorgang auf Grundlage von Vertragserfuellung, berechtigtem Interesse an sicherem Plattformbetrieb, gesetzlicher Pflichten oder Einwilligung.</p>
+
+  <h2>Hosting und E-Mail</h2>
+  <p>Die Anwendung wird ueber Railway betrieben. E-Mails fuer Verifizierung und Passwort-Reset werden ueber den konfigurierten SMTP-Anbieter versendet. Mit eingesetzten Dienstleistern sind passende Datenschutzvereinbarungen zu pruefen.</p>
+
+  <h2>Cookies und Sessions</h2>
+  <p>X-Markt nutzt technisch notwendige Session-Cookies fuer Login, CSRF-Schutz und sichere Kontofunktionen. Diese Cookies sind fuer den Betrieb erforderlich.</p>
+
+  <h2>Speicherdauer</h2>
+  <p>Konten, Anzeigen und Nachrichten werden gespeichert, solange das Konto besteht oder gesetzliche Pflichten beziehungsweise berechtigte Sicherheitsinteressen entgegenstehen. Meldungen werden zur Moderation und Missbrauchsabwehr aufbewahrt.</p>
+
+  <h2>Betroffenenrechte</h2>
+  <p>Du hast nach DSGVO unter den jeweiligen Voraussetzungen Rechte auf Auskunft, Berichtigung, Loeschung, Einschraenkung, Datenuebertragbarkeit und Widerspruch. Du kannst dich ausserdem bei einer Datenschutzaufsichtsbehoerde beschweren.</p>
+
+  <h2>Kontakt Datenschutz</h2>
+  <p>{{ legal.operator_email }}</p>
+</article>
+{% endblock %}
