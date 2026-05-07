@@ -1,0 +1,6 @@
+<!-- Footer-Links in base.html einfügen -->
+<footer>
+  <small>© 2025 X-Markt.de</small> ·
+  <a href="{{ url_for('impressum') }}">Impressum</a> ·
+  <a href="{{ url_for('datenschutz') }}">Datenschutz</a>
+</footer>

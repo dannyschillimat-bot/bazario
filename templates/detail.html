@@ -1,35 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<article class="detail">
-  <header>
-    <h2>{{ ad['title'] }}</h2>
-    <div class="price">{{ '%.2f' % (ad['price_cents']/100.0) }} €</div>
-  </header>
-  <p class="meta">
-    <strong>Standort:</strong> {{ ad['ort'] }} ({{ ad['plz'] }}) ·
-    <strong>Kategorie:</strong> {{ ad['category'] }} ·
-    <strong>Erstellt:</strong> {{ ad['created_at'] }}
-  </p>
-  {% if ad['image_filename'] %}
-    <img class="hero" alt="Bild" src="{{ url_for('uploaded_file', filename=ad['image_filename']) }}">
-  {% endif %}
-  <p class="desc">{{ ad['description'] }}</p>
-
+<section class="card pad detail">
+  <img class="hero" src="{{ images[0].image_url if images else url_for('static', filename='placeholder.jpg') }}" alt="{{ ad.title }}">
+  <h1>{{ ad.title }}</h1>
+  <div class="price">{{ ('%.2f' % (ad.price_cents / 100.0)).replace('.', ',') }} EUR</div>
+  <div class="meta">{{ ad.city }} ({{ ad.plz }}) &middot; {{ ad.category_name }} &middot; Anbieter: {{ ad.seller_name }}</div>
+  <p>{{ ad.description }}</p>
   <div class="actions">
-    {% if can_contact %}
-      <form method="post" action="{{ url_for('contact_seller', ad_id=ad['id']) }}">
-        <button type="submit">Nachricht an Verkäufer</button>
-      </form>
+    {% if current_user.is_authenticated and current_user.id|int != ad.user_id %}
+      <a class="btn-primary" href="{{ url_for('thread_with', user_id=ad.user_id, ad_id=ad.id) }}">Anbieter kontaktieren</a>
+    {% elif not current_user.is_authenticated %}
+      <a class="btn-primary" href="{{ url_for('login', next=request.path) }}">Einloggen zum Kontaktieren</a>
     {% endif %}
-    {% if current_user.is_authenticated %}
-      <details>
-        <summary>Melden</summary>
-        <form method="post" action="{{ url_for('report_ad', ad_id=ad['id']) }}" class="form-inline">
-          <input name="reason" placeholder="Grund (Betrug, Verbotenes, ...)" required>
-          <button type="submit">Senden</button>
-        </form>
-      </details>
-    {% endif %}
+    <form action="{{ url_for('report_ad', ad_id=ad.id) }}" method="post">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <button class="btn-secondary" type="submit">Anzeige melden</button>
+    </form>
   </div>
-</article>
+</section>
 {% endblock %}

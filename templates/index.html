@@ -1,45 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<form class="search" method="get" action="{{ url_for('index') }}">
-  <input type="text" name="q" placeholder="Suche nach Titel oder Text…" value="{{ q }}">
-  <select name="cat">
-    <option value="">Alle Kategorien</option>
-    {% for c in categories %}
-      <option value="{{ c }}" {% if c == cat %}selected{% endif %}>{{ c }}</option>
-    {% endfor %}
-  </select>
-  <input type="text" name="plz" placeholder="PLZ" value="{{ plz }}" pattern="\d{5}" title="5-stellige PLZ">
-  <select name="radius">
-    {% set rvals = [0,5,10,25,50,100,200] %}
-    {% for r in rvals %}
-      <option value="{{ r }}" {% if r == radius %}selected{% endif %}>
-        {% if r == 0 %}kein Radius{% else %}{{ r }} km{% endif %}
-      </option>
-    {% endfor %}
-  </select>
-  <button>Filtern</button>
-</form>
-
-<ul class="grid">
+{% if ads %}
+<div class="grid">
   {% for ad in ads %}
-  <li class="card">
-    <a href="{{ url_for('detail', ad_id=ad['id']) }}">
-      {% if ad['image_filename'] %}
-        <img alt="Bild" src="{{ url_for('uploaded_file', filename=ad['image_filename']) }}">
-      {% else %}
-        <div class="placeholder">Kein Bild</div>
-      {% endif %}
-      <h3>{{ ad['title'] }}</h3>
-      <p class="meta">
-        <span class="price">{{ '%.2f' % (ad['price_cents']/100.0) }} €</span>
-        · <span>{{ ad['ort'] }} ({{ ad['plz'] }})</span>
-        · <span>{{ ad['category'] }}</span>
-      </p>
-      <p class="desc">{{ ad['description'][:120] }}{% if ad['description']|length > 120 %}…{% endif %}</p>
+    <a class="card ad" href="{{ url_for('detail', ad_id=ad.id) }}">
+      <img src="{{ ad.image_url or url_for('static', filename='placeholder.jpg') }}" alt="">
+      <div class="pad">
+        <h3 class="title">{{ ad.title }}</h3>
+        <div class="meta">
+          <span><strong>{{ ('%.2f' % (ad.price_cents / 100.0)).replace('.', ',') }} EUR</strong></span>
+          <span>&middot;</span>
+          <span>{{ ad.city }} ({{ ad.plz }})</span>
+          <span>&middot;</span>
+          <span>{{ ad.category_name }}</span>
+        </div>
+      </div>
     </a>
-  </li>
-  {% else %}
-    <p>Keine Anzeigen gefunden.</p>
   {% endfor %}
-</ul>
+</div>
+{% else %}
+<div class="card pad empty">
+  <h2>Noch keine Anzeigen gefunden</h2>
+  <p>Starte mit der ersten Anzeige oder aendere deine Suche.</p>
+  <a class="btn-primary" href="{{ url_for('new_ad') }}">Anzeige aufgeben</a>
+</div>
+{% endif %}
 {% endblock %}

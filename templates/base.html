@@ -3,54 +3,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0ea5e9">
-  <title>{{ title or "Bazario" }}</title>
-
-  <!-- Font: Inter -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Favicon (Platzhalter mit B) -->
-  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='bazario-icon.svg') }}">
-
+  <title>{{ title or "X-Markt.de - Kleinanzeigen" }}</title>
+  <meta name="theme-color" content="#e5e7eb">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='xmarkt-favicon-512.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-  <header>
-    <a class="brand" href="{{ url_for('index') }}">
-  <img src="{{ url_for('static', filename='bazario-logo-clean.svg') }}" 
-       alt="Bazario Logo" style="height:48px">
-</a>
-
-    <nav>
+<header class="hdr">
+  <div class="wrap hdr-row">
+    <a class="brand" href="{{ url_for('index') }}" aria-label="X-Markt.de">
+      <img src="{{ url_for('static', filename='xmarkt-logo-tight-48.png') }}" alt="X-Markt.de">
+    </a>
+    <nav class="main-nav">
+      <a class="btn-primary" href="{{ url_for('new_ad') }}">+ Anzeige</a>
+      <a class="nav-link" href="{{ url_for('inbox') }}">Nachrichten</a>
       {% if current_user.is_authenticated %}
-        <a href="{{ url_for('inbox') }}">Nachrichten</a>
-        <a href="{{ url_for('new_ad') }}">+ Anzeige</a>
-        {% if current_user.is_admin %}
-          <a href="{{ url_for('admin_reports') }}">Admin</a>
-        {% endif %}
-        <span class="hello">{{ current_user.email }}</span>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <span class="nav-user">{{ current_user.display_name }}</span>
+        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
       {% else %}
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('register') }}">Registrieren</a>
+        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        <a class="nav-link" href="{{ url_for('register') }}">Registrieren</a>
       {% endif %}
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash">
-          {% for m in messages %}<div>{{ m }}</div>{% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
-  </main>
+<section class="searchbar">
+  <div class="wrap search-row">
+    <form class="topsearch" action="{{ url_for('search') }}" method="get">
+      <input name="q" placeholder="Was suchst du?" value="{{ request.args.get('q','') }}">
+      <input name="plz" placeholder="PLZ" value="{{ request.args.get('plz','') }}" class="plz">
+      <button class="btn-primary small" type="submit">Suchen</button>
+    </form>
+  </div>
+</section>
 
-  <footer>
-    <small>Demo. Keine echten Verkäufe. © Bazario</small>
-  </footer>
+<section class="cats">
+  <div class="wrap cats-row">
+    {% for c in categories %}
+      <a href="{{ url_for('category', slug=c.slug) }}" class="cat-pill">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<main class="main wrap">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash">{% for m in messages %}<div>{{ m }}</div>{% endfor %}</div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="ftr">
+  <div class="wrap ftr-row">
+    <small>&copy; 2026 X-Markt.de</small>
+    <div class="ftr-links">
+      <a href="{{ url_for('impressum') }}">Impressum</a>
+      <span>&middot;</span>
+      <a href="{{ url_for('datenschutz') }}">Datenschutz</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

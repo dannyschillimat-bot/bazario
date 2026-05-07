@@ -1,29 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Neue Anzeige</h2>
-<form class="form" method="post" enctype="multipart/form-data">
-  <label>Titel
-    <input name="title" required>
-  </label>
-  <label>Beschreibung
-    <textarea name="description" rows="6" required></textarea>
-  </label>
+<h1>Neue Anzeige</h1>
+<form class="card pad form" action="{{ url_for('new_ad') }}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+  <label>Titel <input name="title" required minlength="3" maxlength="120"></label>
   <label>Kategorie
     <select name="category" required>
-      {% for c in categories %}
-        <option value="{{ c }}">{{ c }}</option>
-      {% endfor %}
+      {% for c in categories %}<option value="{{ c.name }}">{{ c.name }}</option>{% endfor %}
     </select>
   </label>
-  <label>Preis (EUR)
-    <input name="price" inputmode="decimal" placeholder="z.B. 49,90">
-  </label>
-  <label>PLZ
-    <input name="plz" pattern="\d{5}" title="5-stellige PLZ" required>
-  </label>
-  <label>Bild (optional)
-    <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif">
-  </label>
-  <button type="submit">Veröffentlichen</button>
+  <label>Preis (EUR) <input name="price" type="number" min="0" step="0.01" required></label>
+  <label>PLZ <input name="plz" pattern="\d{5}" required></label>
+  <label>Ort <input name="city" required maxlength="80"></label>
+  <label>Beschreibung <textarea name="description" rows="7" required minlength="10"></textarea></label>
+  <label>Bilder (max. 5) <input type="file" name="images" accept="image/png,image/jpeg,image/webp,image/gif" multiple></label>
+  <button class="btn-primary" type="submit">Veroeffentlichen</button>
 </form>
 {% endblock %}

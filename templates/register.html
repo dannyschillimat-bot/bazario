@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Registrieren</h2>
-<form class="form" method="post">
-  <label>E-Mail
-    <input type="email" name="email" required>
-  </label>
-  <label>Passwort
-    <input type="password" name="password" required minlength="6">
-  </label>
-  <button type="submit">Konto erstellen</button>
+<h1>Registrieren</h1>
+<form class="card pad form" method="post">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+  <label>Anzeigenname <input type="text" name="display_name" required minlength="2" maxlength="80" autocomplete="name"></label>
+  <label>E-Mail <input type="email" name="email" required autocomplete="email"></label>
+  <label>Passwort <input type="password" name="password" required minlength="10" autocomplete="new-password"></label>
+  <button class="btn-primary" type="submit">Konto erstellen</button>
   <p>Schon ein Konto? <a href="{{ url_for('login') }}">Login</a></p>
 </form>
 {% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Admin</h1>
+<div class="grid">
+  <div class="card pad"><strong>{{ stats.users }}</strong><br>Nutzer</div>
+  <div class="card pad"><strong>{{ stats.ads }}</strong><br>Anzeigen</div>
+  <div class="card pad"><strong>{{ stats.reports }}</strong><br>Meldungen</div>
+</div>
+{% endblock %}

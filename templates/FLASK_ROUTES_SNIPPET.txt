@@ -1,0 +1,8 @@
+# In app.py ergänzen:
+@app.route("/impressum")
+def impressum():
+    return render_template("impressum.html", title="Impressum")
+
+@app.route("/datenschutz")
+def datenschutz():
+    return render_template("datenschutz.html", title="Datenschutz")

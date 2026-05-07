@@ -1,32 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Nachrichten</h2>
-<ul class="threads">
-  {% for t in threads %}
-    <li>
-      <a href="{{ url_for('thread_view', thread_id=t['id']) }}">
-        <div class="thread-line">
-          <div class="tl-title">{{ t['ad_title'] }}</div>
-          <div class="tl-meta">
-            {% if current_user.id == t['seller_id'] %}
-              Käufer: {{ t['buyer_email'] }}
-            {% else %}
-              Verkäufer: {{ t['seller_email'] }}
-            {% endif %}
-            · {{ t['ort'] }} ({{ t['plz'] }})
-            · {{ '%.2f' % (t['price_cents']/100.0) }} €
-            {% if t['unread_count'] %}
-              <span class="badge">{{ t['unread_count'] }}</span>
-            {% endif %}
-          </div>
-          {% if t['last_body'] %}
-            <div class="tl-last">{{ t['last_body'][:120] }}{% if t['last_body']|length > 120 %}…{% endif %}</div>
-          {% endif %}
-        </div>
+<h1>Nachrichten</h1>
+{% if threads %}
+  <div class="list">
+    {% for thread in threads %}
+      <a class="card pad thread-card" href="{{ url_for('thread', thread_id=thread.id) }}">
+        <strong>{{ thread.other_name }}</strong>
+        <span>{{ thread.ad_title }}</span>
+        <small>{{ thread.last_text or "Noch keine Nachricht" }}</small>
       </a>
-    </li>
-  {% else %}
-    <p>Keine Unterhaltungen.</p>
-  {% endfor %}
-</ul>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card pad">Noch keine Unterhaltungen.</div>
+{% endif %}
 {% endblock %}

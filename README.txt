@@ -1,25 +1,14 @@
-Bazario (Demo)
-=================
+X-Markt.de Rebrand-Paket
 
-Schnellstart:
-1) Python 3 installieren.
-2) In diesem Ordner:
-   python -m venv .venv
-   # Windows:
-   .venv\Scripts\activate
-   # macOS/Linux:
-   source .venv/bin/activate
-   pip install -r requirements.txt
-3) Datenbank initialisieren (Tabellen werden beim Start angelegt):
-   python app.py  (mit STRG+C wieder stoppen)
-4) PLZ importieren:
-   python import_plz.py
-5) Starten:
-   python app.py
-   -> http://127.0.0.1:5000
+Dateien:
+- templates/base.html
+- static/xmarkt-logo.png
+- static/xmarkt-icon.png
 
-Admin aktivieren:
-- User registrieren (E-Mail).
-- App mit gesetzter Env-Variable starten:
-  # Windows (PowerShell):  $env:BAZARIO_ADMIN_EMAIL="dein-admin@beispiel.de"; python app.py
-  # macOS/Linux:           export BAZARIO_ADMIN_EMAIL="dein-admin@beispiel.de"; python app.py
+Einbau:
+1) Lege die PNGs in deinen Projektordner unter /static/
+2) Ersetze deine templates/base.html durch die hier enthaltene
+3) App neu starten (python app.py) und Browser mit Strg+F5 neu laden
+
+Optional in app.py:
+- app = Flask("X-Markt")  # statt "Bazario"
