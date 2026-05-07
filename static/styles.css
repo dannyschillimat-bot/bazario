@@ -79,6 +79,7 @@ a { text-decoration: none; color: inherit; }
 .legal { max-width: 900px; }
 .legal h2 { margin-top: 22px; }
 .legal p { color: var(--ink); }
+.mail-body { white-space: pre-wrap; overflow: auto; padding: 12px; border-radius: 10px; background: #f8fafc; border: 1px solid var(--line); }
 
 .ftr { border-top: 1px solid var(--line); background: #fff; }
 .ftr-row { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; color: var(--muted); }

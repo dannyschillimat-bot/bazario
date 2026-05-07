@@ -58,4 +58,18 @@
     </section>
   {% endfor %}
 </div>
+
+<h2>E-Mail-Outbox</h2>
+<p class="warn">SMTP ist nicht konfiguriert. Bis echte SMTP-Daten gesetzt sind, landen Verifizierungs- und Reset-Mails hier.</p>
+<div class="list">
+  {% for mail in outbox %}
+    <section class="card pad">
+      <strong>{{ mail.subject }}</strong>
+      <p>{{ mail.recipient }} | {{ mail.created_at }}</p>
+      <pre class="mail-body">{{ mail.body }}</pre>
+    </section>
+  {% else %}
+    <div class="card pad">Keine gespeicherten E-Mails.</div>
+  {% endfor %}
+</div>
 {% endblock %}

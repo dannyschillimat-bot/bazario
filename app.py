@@ -358,7 +358,10 @@ def init_db():
     connection.commit()
     admin_email = os.environ.get("ADMIN_EMAIL", "").strip().lower()
     if admin_email:
-        connection.execute("UPDATE users SET is_admin = 1 WHERE email = ?", (admin_email,))
+        connection.execute(
+            "UPDATE users SET is_admin = 1, email_verified_at = COALESCE(email_verified_at, ?) WHERE email = ?",
+            (datetime.utcnow().isoformat(timespec="seconds"), admin_email),
+        )
         connection.commit()
     connection.close()
 
@@ -736,7 +739,8 @@ def admin():
         """
     )
     users = query_all("SELECT id, email, display_name, is_admin, email_verified_at, created_at FROM users ORDER BY created_at DESC LIMIT 50")
-    return render_template("admin.html", title="Admin", stats=stats, reports=reports, ads=ads, users=users)
+    outbox = query_all("SELECT * FROM email_outbox ORDER BY created_at DESC LIMIT 20")
+    return render_template("admin.html", title="Admin", stats=stats, reports=reports, ads=ads, users=users, outbox=outbox)
 
 
 @app.route("/admin/report/<int:report_id>", methods=["POST"])
