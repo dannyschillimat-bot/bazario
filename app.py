@@ -11,8 +11,13 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
 BASE_DIR = os.path.dirname(__file__)
-DATABASE_PATH = os.environ.get("DATABASE_PATH", os.path.join(BASE_DIR, "xmarkt.db"))
-UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", os.path.join(BASE_DIR, "static", "uploads"))
+RAILWAY_VOLUME_PATH = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+DEFAULT_DATA_DIR = RAILWAY_VOLUME_PATH or BASE_DIR
+DATABASE_PATH = os.environ.get("DATABASE_PATH", os.path.join(DEFAULT_DATA_DIR, "xmarkt.db"))
+UPLOAD_FOLDER = os.environ.get(
+    "UPLOAD_FOLDER",
+    os.path.join(DEFAULT_DATA_DIR, "uploads") if RAILWAY_VOLUME_PATH else os.path.join(BASE_DIR, "static", "uploads"),
+)
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "gif"}
 
 app = Flask("X-Markt")
