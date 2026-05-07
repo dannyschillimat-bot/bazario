@@ -55,6 +55,12 @@
         <strong>{{ user.display_name }}</strong>
         <p>{{ user.email }} | {% if user.email_verified_at %}verifiziert{% else %}nicht verifiziert{% endif %} | {% if user.is_admin %}Admin{% else %}Nutzer{% endif %}</p>
       </div>
+      {% if not user.email_verified_at %}
+        <form method="post" action="{{ url_for('admin_verify_user', user_id=user.id) }}">
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+          <button class="btn-primary" type="submit">Verifizieren</button>
+        </form>
+      {% endif %}
     </section>
   {% endfor %}
 </div>

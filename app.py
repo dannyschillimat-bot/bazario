@@ -777,6 +777,17 @@ def admin_set_ad_status(ad_id):
     return redirect(url_for("admin"))
 
 
+@app.route("/admin/user/<int:user_id>/verify", methods=["POST"])
+@admin_required
+def admin_verify_user(user_id):
+    execute(
+        "UPDATE users SET email_verified_at = COALESCE(email_verified_at, ?) WHERE id = ?",
+        (datetime.utcnow().isoformat(timespec="seconds"), user_id),
+    )
+    flash("Nutzer wurde verifiziert.")
+    return redirect(url_for("admin"))
+
+
 @app.route("/impressum")
 def impressum():
     return render_template("impressum.html", title="Impressum")
